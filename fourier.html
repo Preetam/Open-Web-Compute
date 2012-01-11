@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Fourier transforms</title>
+
+<script>
+function fourier( in_array ) {
+	var len = in_array.length;
+	var output = new Array();
+
+	for( var k=0; k < len; k++ ) {
+		var real = 0;
+		var imag = 0;
+		for( var n=0; n < len; n++ ) {
+			real += in_array[n]*Math.cos(-2*Math.PI*k*n/len);
+			imag += in_array[n]*Math.sin(-2*Math.PI*k*n/len);
+		}
+		output.push( [real.toFixed(5), imag.toFixed(5)] );
+	}
+	
+	return output;
+}
+
+function inversefourier( in_array ) {
+	var a = in_array.reverse();
+	a = fourier(a);
+	for(var i = 0; i < a.length; i++)
+		a[i] = a[i]/a.length;
+	return a;
+}
+
+/*
+
+def fft(x):
+    N = len(x)
+    if N <= 1: return x
+    even = fft(x[0::2])
+    odd =  fft(x[1::2])
+    return [even[k] + exp(-2j*pi*k/N)*odd[k] for k in xrange(N/2)] + \
+           [even[k] - exp(-2j*pi*k/N)*odd[k] for k in xrange(N/2)]
+           
+*/
+
+function fft(array) {
+	var N = array.length;
+	
+	if(N <= 1) return array;
+	var even = [];
+	var odd = [];
+	for(var i = 0; i < N/2; i++) {
+		even[i] = array[i*2];
+		odd[i] = array[i*2+1];
+	}
+	
+	console.log(even);
+	console.log(odd);
+
+	var evenFFT = fft(even);
+	var oddFFT = fft(odd);
+	
+	var output = [];
+
+	for(var i = 0; i < N/2; i++) {
+	//	evenFFT[i] + Math.exp(
+	}
+}
+</script>
+</head>
+
+<body>
+
+
+</body>
+
+</html>
