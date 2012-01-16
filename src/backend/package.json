@@ -1,0 +1,8 @@
+{
+	"name": "Open-Web-Compute-backend",
+	"version": "0.0.1",
+	"author": "Preetam Jinka <preetam@jinka.org>",
+	"dependencies": {
+		"nano": "1.1.5"
+	}
+}
