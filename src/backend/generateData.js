@@ -19,14 +19,14 @@ function putDoc(doc) {
 		if(r1.rows[0])
 			if(r1.rows[0].value) {
 				console.log(r1.rows[0].value);
-				db.destroy(doc._id, r1.rows[0].value, function(e2,r2,h2) {
+		/*		db.destroy(doc._id, r1._rev, function(e2,r2,h2) {
 					console.log(r2);
 					db.insert(doc, function(e3,r3,h3) {
 						console.log(r3);
 					});
 	
-				});
-		
+			});
+		*/
 			}
 	});
 }
