@@ -9,17 +9,24 @@ for(var i = 0; i < 1000; i++) {
 		"_id": "DATA-1-"+i,
 		"data": data
 	};
-	
+	if(i % 10 == 0)
+		console.log(i/10 + '%');
 	putDoc(doc);
 }
 
 function putDoc(doc) {
-	db.get(doc._id, function(e1,r1,h1) {
-		db.destroy(doc._id, r1._rev, function(e2,r2,h2) {
-			if(e2) console.log(e2);
-			db.insert(doc, function(e3,r3,h3) {
-				console.log(r3);
-			});
-		});
+	db.view('owc', 'getRevision', {key: doc._id}, function(e1,r1,h1) {
+		if(r1.rows[0])
+			if(r1.rows[0].value) {
+				console.log(r1.rows[0].value);
+				db.destroy(doc._id, r1.rows[0].value, function(e2,r2,h2) {
+					console.log(r2);
+					db.insert(doc, function(e3,r3,h3) {
+						console.log(r3);
+					});
+	
+				});
+		
+			}
 	});
 }
