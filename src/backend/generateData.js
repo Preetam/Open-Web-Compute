@@ -1,7 +1,7 @@
-var db = require('./db.js').db;
-//console.log(db);
+var dataDB = require('./db.js').dataDB;
+//console.log(data);
 
-for(var i = 0; i < 10000; i++) {
+for(var i = 0; i < 100; i++) {
 	var data = [];
 	for(var j = 0; j < 1000; j++)
 		data.push((Math.random()*10000).toFixed(2));
@@ -16,22 +16,22 @@ for(var i = 0; i < 10000; i++) {
 }
 
 function putDoc(doc) {
-	db.view('owc', 'getRevision', {key: doc._id}, function(e1,r1,h1) {
+	dataDB.view('owc', 'getRevision', {key: doc._id}, function(e1,r1,h1) {
 		if(r1.rows[0]) {
 			if(r1.rows[0].value) {
 				console.log(r1.rows[0].value);
-				db.destroy(doc._id, r1.rows[0].value, function(e2,r2,h2) {
-//					console.log(r2);
-					db.insert(doc, function(e3,r3,h3) {});
+				dataDB.destroy(doc._id, r1.rows[0].value, function(e2,r2,h2) {
+					console.log(r2);
+					dataDB.insert(doc, function(e3,r3,h3) {});
 				});
 		
 			}
 			else {
 				console.log(r1.rows[0]);
-				db.insert(doc, function(e3,r3,h3) {console.log(r3)});
+				dataDB.insert(doc, function(e3,r3,h3) {console.log(r3)});
 			}
 		}
 		else
-			db.insert(doc, function(e2,r2,h2) {});
+			dataDB.insert(doc, function(e2,r2,h2) {});
 	});
 }
