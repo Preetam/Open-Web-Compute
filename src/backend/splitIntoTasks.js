@@ -1,6 +1,6 @@
-var db = require('./db.js').db;
+var dataDB = require('./db.js').dataDB;
 
-db.view('owc', 'grabAllDocuments', {limit: 10},function(e,r,h) {
+dataDB.view('owc', 'grabAllDocuments', {limit: 10},function(e,r,h) {
 	var idlist = [];
 	for(var i in r.rows) {
 		idlist.push(r.rows[i].value);
@@ -25,7 +25,7 @@ function generateTask(docIDs, taskID) {
 	dataCombined = [];
 	var counter = docIDs.length;
 	for(var i in docIDs) {
-		db.get(docIDs[i], function(e,r,h) {
+		dataDB.get(docIDs[i], function(e,r,h) {
 			dataCombined = dataCombined.concat(r.data);
 			console.log(dataCombined.length);
 			if(--counter == 0) {
@@ -35,7 +35,7 @@ function generateTask(docIDs, taskID) {
 					taskID: taskID,
 					data: dataCombined
 				};
-				//db.insert(task, function(e1,r1,h1) {});
+				dataDB.insert(task, function(e1,r1,h1) {});
 				deleteAndInsert(task);
 			}
 		});
@@ -45,10 +45,10 @@ function generateTask(docIDs, taskID) {
 }
 
 function deleteAndInsert(doc) {
-	db.view('owc','getRevision', {key: doc._id}, function(e,r,h) {
+	dataDB.view('owc','getRevision', {key: doc._id}, function(e,r,h) {
 		if(r.rows[0] && r.rows[0].value) {
-			db.destroy(doc._id, r.rows[0].value, function(e2,r2,h2) {
-				db.insert(doc, function(e3, r3, h3) {});
+			dataDB.destroy(doc._id, r.rows[0].value, function(e2,r2,h2) {
+				dataDB.insert(doc, function(e3, r3, h3) {console.log(e3)});
 			});
 		}
 	});

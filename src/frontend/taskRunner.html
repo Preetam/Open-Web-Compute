@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Task runner!</title>
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
+	
+	<script>
+	$(document).ready(function() {	
+		document.body.innerHTML += "<p>Getting data...</p>";
+		$.get("http://localhost:3000/getTask", function(data) {
+			document.body.innerHTML += "<p>Got the data. Evaluating...</p>";
+			var obj = JSON.parse(data);
+			var taskID = obj.taskID;
+			eval(obj.code);
+			output = code(obj.data);
+			document.body.innerHTML += "<p>Alright, evaluated. Here's the output:</p>";
+			document.body.innerHTML += "<code>"+JSON.stringify(output)+"</code>";
+			
+			$.post('http://localhost:3000/submitTaskOutput', output);
+		});
+	});
+	</script>
+</head>
+
+<body>
+</body>
+
+</html>
