@@ -1,7 +1,7 @@
 var dataDB = require('./db.js').dataDB;
 //console.log(data);
 
-for(var i = 0; i < 100; i++) {
+for(var i = 0; i < 1000; i++) {
 	var data = [];
 	for(var j = 0; j < 1000; j++)
 		data.push((Math.random()*10000).toFixed(2));

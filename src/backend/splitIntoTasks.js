@@ -1,6 +1,6 @@
 var dataDB = require('./db.js').dataDB;
 
-dataDB.view('owc', 'grabAllDocuments', {limit: 10},function(e,r,h) {
+dataDB.view('owc', 'grabAllDocuments', function(e,r,h) {
 	var idlist = [];
 	for(var i in r.rows) {
 		idlist.push(r.rows[i].value);
@@ -11,31 +11,30 @@ dataDB.view('owc', 'grabAllDocuments', {limit: 10},function(e,r,h) {
 	for(var i = 0; i < totalTasks; i++)
 		tasks[i] = [];
 
-	for(var i = 0; i < idlist.length; i++) {
+	console.log(idlist.length);
+	var len = idlist.length;
+	for(var i = 0; i < len; i++) {
 		for(var j = 0; j < totalTasks; j++)
 			tasks[j].push(idlist.pop());
+
 	}
 	for(var i = 0; i < totalTasks; i++)
-	generateTask(tasks[i], i);
+		generateTask(tasks[i], i);
 });
 
 // docIDs is an array of document IDs.
 function generateTask(docIDs, taskID) {
-	console.log(docIDs);
 	dataCombined = [];
 	var counter = docIDs.length;
 	for(var i in docIDs) {
 		dataDB.get(docIDs[i], function(e,r,h) {
 			dataCombined = dataCombined.concat(r.data);
-			console.log(dataCombined.length);
 			if(--counter == 0) {
-				console.log("We're done here!");
 				var task = {
 					_id: "TASK-1-"+taskID,
 					taskID: taskID,
 					data: dataCombined
 				};
-				dataDB.insert(task, function(e1,r1,h1) {});
 				deleteAndInsert(task);
 			}
 		});
@@ -52,4 +51,6 @@ function deleteAndInsert(doc) {
 			});
 		}
 	});
+
+	console.log(doc.data.length);
 }
