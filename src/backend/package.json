@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"author": "Preetam Jinka <preetam@jinka.org>",
 	"dependencies": {
-		"nano": "1.1.5",
+		"nano": "1.3.37",
 		"express": "2.5.6"
 	}
 }
